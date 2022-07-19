@@ -1,4 +1,4 @@
-package com.example.dangdangee
+package com.example.dangdangee.map
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,7 +7,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.dangdangee.R
 import com.example.dangdangee.auth.IntroActivity
 import com.example.dangdangee.board.BoardWriteActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -25,7 +27,7 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 
 
-class MainMapActivity : AppCompatActivity() , OnMapReadyCallback{
+class MainMapActivity  : AppCompatActivity(),  OnMapReadyCallback {
     lateinit var mapView: MapView //지도를 표시할 뷰
     private lateinit var locationSource: FusedLocationSource //현재 위치 정보를 위한 것
     private lateinit var naverMap: NaverMap //지도

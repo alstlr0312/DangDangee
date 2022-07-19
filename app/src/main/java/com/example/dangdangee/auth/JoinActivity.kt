@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.dangdangee.MainActivity
-import com.example.dangdangee.MainMapActivity
 import com.example.dangdangee.R
 import com.example.dangdangee.databinding.ActivityJoinBinding
+import com.example.dangdangee.map.MainMapActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -61,7 +61,7 @@ class JoinActivity : AppCompatActivity() {
                         if (task.isSuccessful) {
                             Toast.makeText(this,"ok", Toast.LENGTH_SHORT).show()
 
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, MainMapActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or  Intent.FLAG_ACTIVITY_CLEAR_TOP //회원가입하면 뒤에있는 엑티비티 없애기
                             startActivity(intent)
 

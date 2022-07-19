@@ -1,6 +1,6 @@
 package com.example.dangdangee.board
 
-import android.content.Context
+import  android.content.Context
 import android.graphics.drawable.DrawableContainer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,19 +17,14 @@ class Board : AppCompatActivity() {
     private lateinit var binding: ActivityBoardBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_board)
 
+        val boardList = mutableListOf<BoardModel>()
+        boardList.add(BoardModel("a","b","c","d"))
+
+        val BoardRVAdapter = BoardListLVAdapter(boardList)
+        binding.boardListView.adapter = BoardRVAdapter
     }
 
-    /*override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.activity_board, container, false)
-
-        val boardlist = mutableListOf<BoardModel>()
-        boardlist.add(BoardModel("a", "b", "c", "d"))
-
-        val boardRVAdaper = BoardListLVAdapter(boardlist)
-        binding.boardListView.adapter = boardRVAdaper
-
-        return binding.root
-    }*/
 
 }
