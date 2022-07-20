@@ -3,7 +3,9 @@ package com.example.comment.board
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.comment.R
 import com.example.comment.comment.CommentLVAdapter
@@ -21,6 +23,7 @@ class BoardInsideActivity : AppCompatActivity() {
     private val TAG = BoardInsideActivity::class.java.simpleName
     private val commentDataList = mutableListOf<CommentModel>()
     private lateinit var  commentAdapter : CommentLVAdapter
+    private lateinit var key:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_board_inside)
@@ -29,6 +32,11 @@ class BoardInsideActivity : AppCompatActivity() {
             insertComment()
 
         }
+
+
+
+        key = intent.getStringExtra("key").toString()
+
         //adapter 연결
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter= commentAdapter
@@ -36,8 +44,15 @@ class BoardInsideActivity : AppCompatActivity() {
         getCommentData()
 
     }
+    private fun showDialog(){
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog,null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("삭제하시겠습니까?")
+        mBuilder.show()
+    }
     //커멘트 데이터 받아오기
-    fun getCommentData(){
+    private fun getCommentData(){
         val postListener = object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentDataList.clear()
