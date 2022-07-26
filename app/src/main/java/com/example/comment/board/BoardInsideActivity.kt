@@ -35,6 +35,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
 
+
         key = intent.getStringExtra("key").toString()
 
         //adapter 연결
@@ -93,4 +94,6 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.commentArea.setText("")
 
     }
+
+
 }

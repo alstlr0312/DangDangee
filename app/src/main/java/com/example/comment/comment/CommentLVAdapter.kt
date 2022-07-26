@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.example.comment.R
 import org.w3c.dom.Text
 
@@ -20,6 +22,7 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>) : BaseAdapte
     override fun getItemId(position: Int): Long {
         return position.toLong()
             }
+
     //view를 가져와서 연결
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = convertView
@@ -28,11 +31,17 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>) : BaseAdapte
         }
         val title = view?.findViewById<TextView>(R.id.titleArea)
         val time = view?.findViewById<TextView>(R.id.timeArea)
+        val delete = view?.findViewById<ImageView>(R.id.commentSettingIcon)
 
         title!!.text = commentList[position].commentTitle
         time!!.text = commentList[position].commentCreatedTime
+        
+       // delete.setOnClickListener(){
+
+       // }
         return view!!
     }
+
 
 
 }
