@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.AdapterView
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -32,25 +34,30 @@ class BoardInsideActivity : AppCompatActivity() {
             insertComment()
 
         }
-
-
-
-
-        key = intent.getStringExtra("key").toString()
-
         //adapter 연결
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter= commentAdapter
 
+        key = intent.getStringExtra("key").toString()
         getCommentData()
+        /*binding.commentLV.onItemClickListener = AdapterView.OnItemClickListener{
+
+        }*/
 
     }
+    //다이얼로그 띄우기
     private fun showDialog(){
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog,null)
         val mBuilder = AlertDialog.Builder(this)
             .setView(mDialogView)
             .setTitle("삭제하시겠습니까?")
-        mBuilder.show()
+        val alertDialog = mBuilder.show()
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
+            FBRef.commentRef.child(key).removeValue()
+            Toast.makeText(this,"삭제완료",Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
     //커멘트 데이터 받아오기
     private fun getCommentData(){
