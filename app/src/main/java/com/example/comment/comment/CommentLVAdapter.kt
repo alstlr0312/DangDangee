@@ -34,7 +34,7 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>) : BaseAdapte
         }
         val title = view?.findViewById<TextView>(R.id.titleArea)
         val time = view?.findViewById<TextView>(R.id.timeArea)
-        val delete = view?.findViewById<ImageView>(R.id.commentSettingIcon)
+        //val delete = view?.findViewById<ImageView>(R.id.commentSettingIcon)
         val content = commentList[position]
         title!!.text = content.commentTitle
         time!!.text = content.commentCreatedTime
@@ -46,5 +46,7 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>) : BaseAdapte
 
 
 }
+
+
 
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.Toast
@@ -37,12 +38,16 @@ class BoardInsideActivity : AppCompatActivity() {
         //adapter 연결
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter= commentAdapter
-
+        //key = FBRef.commentRef.push().key.toString()
         key = intent.getStringExtra("key").toString()
+        //Toast.makeText(this,key,Toast.LENGTH_LONG).show()
         getCommentData()
-        /*binding.commentLV.onItemClickListener = AdapterView.OnItemClickListener{
+        binding.commentLV.setOnItemClickListener{
+                parent,view, position, id->
+            Toast.makeText(this,key,Toast.LENGTH_LONG).show()
+            showDialog()
 
-        }*/
+        }
 
     }
     //다이얼로그 띄우기
@@ -80,16 +85,16 @@ class BoardInsideActivity : AppCompatActivity() {
         FBRef.commentRef.addValueEventListener(postListener)
 
     }
-    fun insertComment(){
+    private fun insertComment(){
         val comment = binding.commentArea.text.toString()
+        val key = FBRef.commentRef.push().key.toString()
         Log.d(TAG, comment)
         //comment
         // boardkey값 넣어서
         // commentkey값
         //commentdata
         FBRef.commentRef
-
-            .push()
+            .child(key)
             .setValue(
                 CommentModel(
                     comment,
@@ -97,7 +102,8 @@ class BoardInsideActivity : AppCompatActivity() {
 
                 )
             )
-        Toast.makeText(this,"댓글 입력 완료", Toast.LENGTH_SHORT)
+        Toast.makeText(this,key,Toast.LENGTH_LONG).show()
+        //Toast.makeText(this,"댓글 입력 완료", Toast.LENGTH_SHORT)
         binding.commentArea.setText("")
 
     }
