@@ -1,5 +1,6 @@
 package com.example.comment.board
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ class BoardInsideActivity : AppCompatActivity() {
     //List
     private val TAG = BoardInsideActivity::class.java.simpleName
     private val commentDataList = mutableListOf<CommentModel>()
+    private val commentKeyList = mutableListOf<String>()
     private lateinit var  commentAdapter : CommentLVAdapter
     private lateinit var key:String
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,13 +39,13 @@ class BoardInsideActivity : AppCompatActivity() {
         //adapter 연결
         commentAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter= commentAdapter
-        //key = FBRef.commentRef.push().key.toString()
-        key = intent.getStringExtra("key").toString()
-        //Toast.makeText(this,key,Toast.LENGTH_LONG).show()
+
         getCommentData()
         binding.commentLV.setOnItemClickListener{
                 parent,view, position, id->
-            Toast.makeText(this,key,Toast.LENGTH_LONG).show()
+            //keyList에 있는 key 받아오기
+            key = commentKeyList[position]
+            //Toast.makeText(this,key,Toast.LENGTH_LONG).show()
             showDialog()
 
         }
@@ -61,29 +63,44 @@ class BoardInsideActivity : AppCompatActivity() {
             FBRef.commentRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료",Toast.LENGTH_LONG).show()
             finish()
+            val intent = Intent(this, BoardInsideActivity::class.java)
+            startActivity(intent)
+
+
         }
     }
     //커멘트 데이터 받아오기
-    private fun getCommentData(){
-        val postListener = object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                commentDataList.clear()
-                for (dataModel in dataSnapshot.children){
-                    Log.d(TAG, dataModel.toString())
-                    val item = dataModel.getValue(CommentModel::class.java)
-                    commentDataList.add(item!!)
-                }
-                //어뎁터 동기화
-                commentAdapter.notifyDataSetChanged()
-               // Log.d(TAG,commentDataList.toString())
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                Log.w(TAG,"loadPost : onCancelled", databaseError.toException())
-            }
-        }
-        FBRef.commentRef.addValueEventListener(postListener)
+    private fun getCommentData() {
+        val postListener = object : ValueEventListener {
 
-    }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                try {
+                    commentDataList.clear()
+                    for (dataModel in dataSnapshot.children) {
+                        Log.d(TAG, dataModel.toString())
+                        dataModel.key
+                        val item = dataModel.getValue(CommentModel::class.java)
+                        commentDataList.add(item!!)
+                        commentKeyList.add(dataModel.key.toString())
+                    }
+
+                    //어뎁터 동기화
+                    commentAdapter.notifyDataSetChanged()
+
+                } catch (e: Exception) {
+                    Log.d(TAG, "삭제완료")
+
+                }
+            }
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Log.w(TAG, "loadPost : onCancelled", databaseError.toException())
+                }
+
+            }
+            FBRef.commentRef.addValueEventListener(postListener)
+
+        }
+    //댓글 입력
     private fun insertComment(){
         val comment = binding.commentArea.text.toString()
         val key = FBRef.commentRef.push().key.toString()
@@ -101,8 +118,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
                 )
             )
-        Toast.makeText(this,key,Toast.LENGTH_LONG).show()
-        //Toast.makeText(this,"댓글 입력 완료", Toast.LENGTH_SHORT)
+        Toast.makeText(this,"댓글 입력 완료", Toast.LENGTH_SHORT)
         binding.commentArea.setText("")
 
     }
