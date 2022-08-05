@@ -6,6 +6,7 @@ import com.google.firebase.ktx.Firebase
 class FBRef {
     companion object {
         private val database = Firebase.database
+
         val commentRef = database.getReference("comment")
 
     }

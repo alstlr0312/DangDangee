@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.dangdangee.R
+import com.example.comment.R
 
 import org.w3c.dom.Text
 
