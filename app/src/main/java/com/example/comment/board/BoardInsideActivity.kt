@@ -60,6 +60,12 @@ class BoardInsideActivity : AppCompatActivity() {
             .setTitle("삭제하시겠습니까?")
         val alertDialog = mBuilder.show()
 
+        alertDialog.findViewById<Button>(R.id.cancelBtn)?.setOnClickListener{
+            finish()
+            val intent = Intent(this, BoardInsideActivity::class.java)
+            startActivity(intent)
+        }
+
         alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener{
             FBRef.commentRef.child(key).removeValue()
             Toast.makeText(this,"삭제완료",Toast.LENGTH_LONG).show()
