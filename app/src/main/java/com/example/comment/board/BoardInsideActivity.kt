@@ -21,7 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 class BoardInsideActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityBoardInsideBinding
+    private lateinit var binding : ActivityBoardInsideActivity
     //List
     private val TAG = BoardInsideActivity::class.java.simpleName
     private val commentDataList = mutableListOf<CommentModel>()
