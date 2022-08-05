@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
+
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import com.example.comment.R
 import com.example.comment.comment.CommentLVAdapter
 import com.example.comment.comment.CommentModel
-import com.example.comment.databinding.ActivityBoardInsideBinding
 import com.example.comment.utils.FBAuth
 import com.example.comment.utils.FBRef
+import com.example.dangdangee.R
+import com.example.dangdangee.databinding.ActivityBoardInsideBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -31,7 +30,7 @@ class BoardInsideActivity : AppCompatActivity() {
     private lateinit var key:String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_board_inside)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
         //댓글 버튼 눌름
         binding.commentBtn.setOnClickListener{
             insertComment()
