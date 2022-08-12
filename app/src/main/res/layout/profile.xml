@@ -190,7 +190,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4" />
+        />
 
     <ImageView
         android:id="@+id/plus"
