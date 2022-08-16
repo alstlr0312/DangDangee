@@ -7,38 +7,18 @@
     android:orientation="vertical"
     tools:context=".fragments.MainActivity">
     <FrameLayout
-        android:id="@+id/view"
+        android:id="@+id/bottom_containers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <LinearLayout
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </FrameLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigationview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <Button
-            android:text="page1"
-            android:id="@+id/btn1"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:text="page2"
-            android:id="@+id/btn2"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:text="profile"
-            android:id="@+id/btn3"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-    </LinearLayout>
-
-
-    </FrameLayout>
+        app:itemBackground="@color/cardview_light_background"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu"/>
 
 </LinearLayout>
