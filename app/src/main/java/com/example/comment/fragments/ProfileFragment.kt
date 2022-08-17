@@ -12,23 +12,18 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.comment.R
 import com.example.comment.databinding.FragmentProfileBinding
 
-var backFragment = ProfileEditFragment()
+
 class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View?{
-
-        return inflater.inflate(R.layout.fragment_profile,container,false)
-    }
-
-
-    fun back(){
-        childFragmentManager.beginTransaction()
-            .replace(R.id.bottom_containers,backFragment)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            .commit()
+    ): FrameLayout{
+        val binding = FragmentProfileBinding.inflate(inflater,container,false)
+        binding.profileEdit.setOnClickListener {
+            startActivity(Intent(activity,ProfileEdit::class.java))
+        }
+        return binding.root
     }
 
 }

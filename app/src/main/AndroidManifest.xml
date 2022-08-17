@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Comment">
         <activity
+            android:name=".fragments.ProfileEdit"
+            android:exported="false" />
+        <activity
             android:name=".board.BoardInsideActivity"
             android:exported="false" />
         <activity
