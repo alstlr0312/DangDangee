@@ -32,6 +32,7 @@ class PostActivity : AppCompatActivity() {
     private lateinit var binding : ActivityPostBinding
     private lateinit var key: String
     private lateinit var mid: String
+    private lateinit var email: String
     private lateinit var commentkey: String
     private val commentDataList = mutableListOf<CommentModel>()
     private val commentKeyList = mutableListOf<String>()
@@ -45,6 +46,7 @@ class PostActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_post)
         key = intent.getStringExtra("key").toString()
+        email = intent.getStringExtra("email").toString()
 
         binding.boardSettingIcon.setOnClickListener {
             showDialog()
@@ -66,7 +68,8 @@ class PostActivity : AppCompatActivity() {
                 parent,view, position, id->
             //keyList에 있는 key 받아오기
             commentkey = commentKeyList[position]
-            showCDialog()
+            showCDialog() // 다이어로그
+
         }
 
         binding.btnPathRegister.setOnClickListener{
@@ -81,6 +84,7 @@ class PostActivity : AppCompatActivity() {
     private fun getCommentData(key: String) {
         val postListener = object : ValueEventListener {
 
+            //작성자가 같은 사람만 삭제 할 수 있게함
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 try {
                     commentDataList.clear()
@@ -92,6 +96,11 @@ class PostActivity : AppCompatActivity() {
                         commentKeyList.add(dataModel.key.toString())
 
                     }
+                    val mykey = FBAuth.getUid()
+
+                    /*if(mykey == commentkey){
+                        showCDialog()
+                    }*/
                     //어뎁터 동기화
                     commentAdapter.notifyDataSetChanged()
                 } catch (e: Exception) {
