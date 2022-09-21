@@ -13,6 +13,7 @@ import com.example.dangdangee.Utils.FBAuth
 import com.example.dangdangee.Utils.FBRef
 import com.example.dangdangee.databinding.ActivityBoardWriteBinding
 import com.example.dangdangee.map.MarkerRegisterActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
@@ -27,6 +28,9 @@ class BoardWriteActivity : AppCompatActivity() {
     private var isImageUpload = false
 
 
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -35,8 +39,9 @@ class BoardWriteActivity : AppCompatActivity() {
 
         binding.pingping.setOnClickListener {
             val title = binding.evTitle.text.toString()
-            val eid = FBAuth.getEmail()
             val ukey = FBAuth.getUid()
+            val eid = FBAuth.getEmail()
+            val dogname = binding.evDogName.text.toString()
             val breed = binding.evBreed.text.toString()
             val lostday = binding.evTime.text.toString()
             val content = binding.evText.text.toString()
@@ -53,21 +58,59 @@ class BoardWriteActivity : AppCompatActivity() {
             //board
             //  -key
             //      -boardModel(title, content, uid, time)
-            FBRef.boardRef
-                .child(key)
-                .setValue(BoardModel(title,eid,ukey,breed,lostday,content,time))
 
             if(isImageUpload) {
 
-                imageUpload(key)
+                val storage = Firebase.storage
+                val storageRef = storage.reference
+                val mountainsRef = storageRef.child(key+".png")
+
+                val imageView = binding.ivProfile
+                imageView.isDrawingCacheEnabled = true
+                imageView.buildDrawingCache()
+                val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+
+                var uploadTask = mountainsRef.putBytes(data)
+                uploadTask.addOnFailureListener {
+                    // Handle unsuccessful uploads
+                }.addOnSuccessListener { taskSnapshot ->
+                    // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                    // ...
+                }
+
+                val urlTask = uploadTask.continueWithTask { task->
+                    if (!task.isSuccessful){
+                        task.exception?.let{
+                            throw it
+                        }
+                    }
+                    mountainsRef.downloadUrl
+                }.addOnCompleteListener{ task->
+                    if(task.isSuccessful){
+                        val downloadUri = task.result
+                        val imuri = downloadUri.toString()
+                        FBRef.boardRef
+                            .child(key)
+                            .setValue(BoardModel(title,eid,ukey,dogname,breed,lostday,content,time,imuri))
+                        Log.d("check", downloadUri.toString())
+                    }
+                }
 
             }
+            /*FBRef.boardRef
+                .child(key)
+                .setValue(BoardModel(title,eid,ukey,dogname,breed,lostday,content,time))*/
+
             finish()
             val intent = Intent(this, MarkerRegisterActivity::class.java)
             intent.putExtra("tag", "F") //최초 등록 태그
             intent.putExtra("key",key)
+            intent.putExtra("breed", breed)
+            intent.putExtra("name", dogname)
             startActivity(intent)
-            //finish()
         }
 
         binding.ivProfile.setOnClickListener {
@@ -99,6 +142,21 @@ class BoardWriteActivity : AppCompatActivity() {
         }.addOnSuccessListener { taskSnapshot ->
             // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
             // ...
+        }
+
+        val urlTask = uploadTask.continueWithTask { task->
+            if (!task.isSuccessful){
+                task.exception?.let{
+                    throw it
+                }
+            }
+            mountainsRef.downloadUrl
+        }.addOnCompleteListener{ task->
+            if(task.isSuccessful){
+                 val downloadUri = task.result
+
+
+            }
         }
     }
 

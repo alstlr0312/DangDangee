@@ -29,14 +29,12 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class MapBottomSheetFragment : BottomSheetDialogFragment() {
-    private val boardKeyList = arrayListOf<String>()
-    private val boardDataList = arrayListOf<BoardModel>()
-    private lateinit var mapref: DatabaseReference
     lateinit var name : String
     lateinit var address : String
     lateinit var breed : String
     lateinit var img : Drawable
     lateinit var key : String
+
     var flag = true //true면 경로 보기 버튼 뜸, false면 경로 보기 버튼 안 뜸(이미 경로 액티비티일 때)
 
 
@@ -50,7 +48,6 @@ class MapBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mapref = Firebase.database.getReference("Marker")
         val imgview = view.findViewById<ImageView>(R.id.info_image_pet)
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.info_to_post).setOnClickListener {

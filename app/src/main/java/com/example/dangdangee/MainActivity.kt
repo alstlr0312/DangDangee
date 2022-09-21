@@ -2,6 +2,7 @@ package com.example.dangdangee
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.example.dangdangee.board.HomeFragment
 import com.example.dangdangee.databinding.ActivityMainBinding
 import com.example.dangdangee.map.MainMapFragment
@@ -21,17 +22,17 @@ class MainActivity : AppCompatActivity(){
         val navigationBarView = binding.bottomNavigationview
         navigationBarView.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.bottom_map -> {
+                R.id.mainMapFragment -> {
                     supportFragmentManager.beginTransaction().replace(R.id.bottom_containers, mapFragment)
                         .commit()
                     return@OnItemSelectedListener true
                 }
-                R.id.bottom_board -> {
+                R.id.postFragment -> {
                     supportFragmentManager.beginTransaction().replace(R.id.bottom_containers, homeFragment)
                         .commit()
                     return@OnItemSelectedListener true
                 }
-                R.id.bottom_profile -> {
+                R.id.profileFragment -> {
                     supportFragmentManager.beginTransaction().replace(R.id.bottom_containers, profileFragment)
                         .commit()
                     return@OnItemSelectedListener true

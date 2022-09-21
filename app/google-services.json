@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "227316437677",
+    "firebase_url": "https://togedog-ea2cd-default-rtdb.firebaseio.com",
     "project_id": "togedog-ea2cd",
     "storage_bucket": "togedog-ea2cd.appspot.com"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.example.dangdangee",
             "certificate_hash": "7fd87d416524c14155fd2978148747850016306c"
+          }
+        },
+        {
+          "client_id": "227316437677-bik1325p3r8c472p9krfgcm9r2sk6euq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dangdangee",
+            "certificate_hash": "2398d004d9be7da6dd6a2d4f8842487de5c9016d"
           }
         },
         {

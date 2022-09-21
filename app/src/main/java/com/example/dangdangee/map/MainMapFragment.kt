@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import com.example.dangdangee.R
+import com.example.dangdangee.Utils.FBAuth
+import com.example.dangdangee.Utils.FBRef
 import com.example.dangdangee.board.BoardWriteActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -27,16 +29,14 @@ import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 
 class MainMapFragment : Fragment(), OnMapReadyCallback {
-    private lateinit var mapRef: DatabaseReference
     private lateinit var locationSource: FusedLocationSource //현재 위치 정보를 위한 것
     private var naverMap: NaverMap? = null //지도
-    private lateinit var auth: FirebaseAuth
+    private lateinit var markerListener : ChildEventListener
     private var markers = ArrayList<MapModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
-        mapRef = Firebase.database.getReference("Marker")
+        FBAuth.auth
     }
 
     override fun onCreateView(
@@ -82,7 +82,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback {
         val locationOverlay = naverMap.locationOverlay //위치 오버레이
         locationOverlay.isVisible = true // 가시성 true
         locationOverlay.position = LatLng(37.5670135, 126.9783740) //오버레이 위치
-        val markerListener = object : ChildEventListener {
+        markerListener = object : ChildEventListener {
             override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
                 val marker = dataSnapshot.getValue(MapModel::class.java)
                 if(marker!!.tag == "F" && naverMap != null) {
@@ -105,7 +105,7 @@ class MainMapFragment : Fragment(), OnMapReadyCallback {
                 Log.w(TAG, "postComments:onCancelled", databaseError.toException())
             }
         }
-        mapRef.addChildEventListener(markerListener)
+        FBRef.mapRef.addChildEventListener(markerListener)
     }
 
     //마커 & 정보창 등록 함수
@@ -156,6 +156,16 @@ class MainMapFragment : Fragment(), OnMapReadyCallback {
             if(markers[i].mid == mid)
                 markers[i].marker?.map = null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        FBRef.mapRef.removeEventListener(markerListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        FBRef.mapRef.removeEventListener(markerListener)
     }
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
