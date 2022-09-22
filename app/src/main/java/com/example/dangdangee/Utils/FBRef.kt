@@ -14,6 +14,7 @@ object FBRef {
         private val database = Firebase.database
 
         val boardRef = database.getReference("board")
+        val emailRef = database.getReference("email")
 
         val commentRef = database.getReference("comment")
 

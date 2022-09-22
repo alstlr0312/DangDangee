@@ -71,8 +71,8 @@ class PostActivity : AppCompatActivity() {
                 parent,view, position, id->
             //keyList에 있는 key 받아오기
             commentkey = commentKeyList[position]
-            showCDialog() // 다이어로그
-
+            Log.d("check",commentkey)
+            showCDialog()
         }
 
         binding.btnPathRegister.setOnClickListener{
@@ -99,11 +99,7 @@ class PostActivity : AppCompatActivity() {
                         commentKeyList.add(dataModel.key.toString())
 
                     }
-                    val mykey = FBAuth.getUid()
 
-                    /*if(mykey == commentkey){
-                        showCDialog()
-                    }*/
                     //어뎁터 동기화
                     commentAdapter.notifyDataSetChanged()
                 } catch (e: Exception) {
