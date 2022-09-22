@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.dangdangee.Utils.FBAuth
 
 import com.example.dangdangee.Utils.FBRef
 import com.example.dangdangee.databinding.FragmentHomeBinding
@@ -27,6 +28,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): FrameLayout {
         val binding = FragmentHomeBinding.inflate(inflater,container,false)
+
+        binding.tvUserHome.text = FBAuth.getDisplayName()
+
         binding.rvPostList.apply {
             getData()
             layoutManager = GridLayoutManager(requireContext(),2)
